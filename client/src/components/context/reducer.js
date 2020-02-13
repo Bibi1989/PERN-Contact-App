@@ -1,0 +1,23 @@
+import { REGISTER, USER_ERROR, LOGIN } from "./types";
+
+export const reducer = (state, action) => {
+  switch (action.type) {
+    case REGISTER:
+      return {
+        ...state,
+        users: action.payload
+      };
+    case LOGIN:
+      return {
+        ...state,
+        status: action.payload
+      };
+    case USER_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      };
+    default:
+      return state;
+  }
+};
