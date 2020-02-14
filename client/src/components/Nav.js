@@ -54,7 +54,7 @@ const Nav = () => {
               <Link
                 onClick={handleActiveRegister}
                 className='nav-link'
-                to='/register'
+                to='/'
               >
                 Register <span className={activeRegister}></span>
               </Link>

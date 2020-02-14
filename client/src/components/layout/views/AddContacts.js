@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { context } from "../../contact-context/ContactProvider";
 import styled from "styled-components";
-// import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddContacts = () => {
@@ -27,8 +27,6 @@ const AddContacts = () => {
       email: populate.email,
       phone: populate.phone
     });
-    getContacts();
-
     // eslint-disable-next-line
   }, [populate]);
 
@@ -38,7 +36,14 @@ const AddContacts = () => {
 
   const handleAddContact = e => {
     e.preventDefault();
-    addContacts(form);
+    if (!form.name || !form.email || !form.phone) {
+      toast("A field is empty", {
+        position: "top-center",
+        autoClose: 5000
+      });
+    } else {
+      addContacts(form);
+    }
     setForm({
       id: "",
       name: "",
@@ -49,7 +54,14 @@ const AddContacts = () => {
 
   const handleUpdateContact = e => {
     e.preventDefault();
-    updateContact(form);
+    if (!form.name || !form.email || !form.phone) {
+      toast("A field is empty", {
+        position: "top-center",
+        autoClose: 5000
+      });
+    } else {
+      updateContact(form);
+    }
     setForm({
       id: "",
       name: "",
@@ -58,10 +70,10 @@ const AddContacts = () => {
     });
   };
 
-  console.log(contacts);
-
   return (
     <Post>
+      <ToastContainer />
+      <h1>Add Contacts</h1>
       <form>
         <div>
           <input name='id' value={form.id} onChange={handleInput} hidden />
@@ -108,6 +120,10 @@ const AddContacts = () => {
 export default AddContacts;
 
 const Post = styled.div`
+  h1 {
+    color: #555;
+    font-weight: bolder;
+  }
   form {
     width: 100%;
     div {

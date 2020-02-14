@@ -33,7 +33,7 @@ export const ContactProvider = props => {
   });
 
   useEffect(() => {
-    if (sessionStorage.getItem("token")) {
+    if (sessionStorage.getItem("token") && props.location.path !== '/contacts') {
       getContacts();
     } else {
       history.push("/login");
@@ -96,7 +96,7 @@ export const ContactProvider = props => {
 
   const updateContact = async contact => {
     const token = sessionStorage.getItem("token");
-    await axios.put(`${BASE_URL}/${contact.id}`, contact, {
+    await axios.patch(`${BASE_URL}/${contact.id}`, contact, {
       headers: {
         auth: `${token}`
       }
@@ -105,10 +105,9 @@ export const ContactProvider = props => {
       update: true,
       delete: false
     });
-    return dispatch({ type: UPDATE_CONTACT });
+    return dispatch({ type: UPDATE_CONTACT, payload: false });
   };
 
-  console.log("tracker: ", tracker);
 
   return (
     <context.Provider

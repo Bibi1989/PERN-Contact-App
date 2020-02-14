@@ -32,7 +32,7 @@ export default (state, action) => {
     case UPDATE_CONTACT:
       return {
         ...state,
-        contacts: [...state.contacts]
+        check: action.payload
       };
     default:
       return state;

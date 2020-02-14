@@ -4,12 +4,17 @@ import { UserProvider } from "./components/user-context/UserProvider";
 import { ContactProvider } from "./components/contact-context/ContactProvider";
 import RegisterComponent from "./components/layout/forms/RegisterComponent";
 import LoginComponent from "./components/layout/forms/LoginComponent";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import ContactsComponent from "./components/layout/views/ContactsComponent";
 import Nav from "./components/Nav";
 import { PrivateRoute } from "./components/privateRoute/privateRoute";
 import AddContacts from "./components/layout/views/AddContacts";
-// import { ToastContainer, toast } from "react-toastify";
+import NotFound from "./components/layout/NotFound";
 
 function App() {
   return (
@@ -17,11 +22,10 @@ function App() {
       <Router>
         <Nav />
         <Switch>
-          {/* <ToastContainer /> */}
-          <Route path='/register'>
+          <Route exact path='/'>
             <RegisterComponent />
           </Route>
-          <Route path='/login'>
+          <Route exact path='/login'>
             <LoginComponent />
           </Route>
           <ContactProvider>
@@ -43,6 +47,9 @@ function App() {
               </div>
             </div>
           </ContactProvider>
+          <Redirect to='/notFound'>
+            <NotFound />
+          </Redirect>
         </Switch>
       </Router>
     </UserProvider>
