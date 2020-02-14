@@ -9,15 +9,15 @@ import ContactsComponent from "./components/layout/views/ContactsComponent";
 import Nav from "./components/Nav";
 import { PrivateRoute } from "./components/privateRoute/privateRoute";
 import AddContacts from "./components/layout/views/AddContacts";
-import auth from "./components/privateRoute/auth";
+// import { ToastContainer, toast } from "react-toastify";
 
 function App() {
-  const token = sessionStorage.getItem("token");
   return (
     <UserProvider>
       <Router>
         <Nav />
         <Switch>
+          {/* <ToastContainer /> */}
           <Route path='/register'>
             <RegisterComponent />
           </Route>

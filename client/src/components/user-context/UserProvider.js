@@ -2,7 +2,7 @@ import React, { createContext, useReducer } from "react";
 import { reducer } from "./reducer";
 import { REGISTER, USER_ERROR, LOGIN } from "./types";
 import axios from "axios";
-import jwt from "jwt-decode";
+// import jwt from "jwt-decode";
 
 export const context = createContext();
 

@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { context } from "../../contact-context/ContactProvider";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+// import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddContacts = () => {
   const {
@@ -12,7 +13,6 @@ const AddContacts = () => {
     getContacts,
     contacts
   } = useContext(context);
-  const history = useHistory();
   const [form, setForm] = useState({
     id: "",
     name: "",
@@ -28,7 +28,9 @@ const AddContacts = () => {
       phone: populate.phone
     });
     getContacts();
-  }, [populate, history]);
+
+    // eslint-disable-next-line
+  }, [populate]);
 
   const handleInput = ({ target }) => {
     setForm({ ...form, [target.name]: target.value });
@@ -37,17 +39,26 @@ const AddContacts = () => {
   const handleAddContact = e => {
     e.preventDefault();
     addContacts(form);
+    setForm({
+      id: "",
+      name: "",
+      email: "",
+      phone: ""
+    });
   };
 
   const handleUpdateContact = e => {
     e.preventDefault();
     updateContact(form);
+    setForm({
+      id: "",
+      name: "",
+      email: "",
+      phone: ""
+    });
   };
 
   console.log(contacts);
-
-  //   54b7a206-c04a-4ae5-94d4-b39328cef728
-  // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJiNmIyOTI4LTljZDQtNDcyMS1hMjRmLTQ4NWJiYWNjNWRjZiIsImlhdCI6MTU4MTYyNTc2OX0.p5oz2bBVC0j_dk3MroBqB0ceGnhxhZt7iZzJ83T8f7k
 
   return (
     <Post>

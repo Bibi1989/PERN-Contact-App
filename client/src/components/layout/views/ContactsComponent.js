@@ -1,23 +1,13 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { context } from "../../contact-context/ContactProvider";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
 
 const ContactsComponent = () => {
-  const history = useHistory();
-  const { contacts, getContacts, deleteContacts, populateContact, populate } = useContext(context);
+  const { contacts, deleteContacts, populateContact } = useContext(context);
 
   const handleDelete = id => {
     deleteContacts(id);
   };
-
-  useEffect(() => {
-    if (sessionStorage.getItem("token")) {
-      getContacts();
-    } else {
-      history.push("/login");
-    }
-  }, [populate]);
 
   const handleEdit = id => {
     populateContact(id)
