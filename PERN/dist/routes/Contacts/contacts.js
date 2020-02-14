@@ -8,6 +8,6 @@ router.get("/", auth_1.Auth, getAllContacts_1.getAllContacts);
 router.get("/:id", auth_1.Auth, getAllContacts_1.getAContact);
 router.post("/", auth_1.Auth, getAllContacts_1.postContacts);
 router.delete("/:id", auth_1.Auth, getAllContacts_1.deleteContact);
-router.put("/:id", auth_1.Auth, getAllContacts_1.updateContact);
+router.patch("/:id", auth_1.Auth, getAllContacts_1.updateContact);
 exports.default = router;
 //# sourceMappingURL=contacts.js.map

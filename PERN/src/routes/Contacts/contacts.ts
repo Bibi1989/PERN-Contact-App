@@ -17,6 +17,6 @@ router.post("/", Auth, postContacts);
 
 router.delete("/:id", Auth, deleteContact)
 
-router.put("/:id", Auth, updateContact)
+router.patch("/:id", Auth, updateContact)
 
 export default router;
