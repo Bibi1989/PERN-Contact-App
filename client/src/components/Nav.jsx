@@ -1,29 +1,32 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import auth from "./privateRoute/auth";
 // import { context } from "../../context/ContextProvider";
 
 const Nav = () => {
-//   const { state } = useContext(context);
-  const [activeLogin, setActiveLogin] = useState('')
-  const [activeRegister, setActiveRegister] = useState('')
-//   const handleLogout = () => {
-//     sessionStorage.clear("token");
-//   };
+  //   const { state } = useContext(context);
+  const history = useHistory();
+  const [activeLogin, setActiveLogin] = useState("");
+  const [activeRegister, setActiveRegister] = useState("");
+  const handleLogout = () => {
+    auth.logout(() => {
+      history.push("/login");
+    });
+    sessionStorage.token = "";
+  };
 
   const handleActiveLogin = () => {
-      setActiveLogin('sr-only')
-      setActiveRegister('')
-  }
+    setActiveLogin("sr-only");
+    setActiveRegister("");
+  };
   const handleActiveRegister = () => {
-      setActiveRegister('sr-only')
-      setActiveLogin('')
-  }
+    setActiveRegister("sr-only");
+    setActiveLogin("");
+  };
   return (
     <>
       <nav className='navbar navbar-expand-lg navbar-light bg-light px-5'>
-        <span className='navbar-brand'>
-          My Contacts
-        </span>
+        <span className='navbar-brand'>My Contacts</span>
         <button
           className='navbar-toggler'
           type='button'
@@ -39,12 +42,20 @@ const Nav = () => {
         <div className='collapse navbar-collapse' id='navbarSupportedContent'>
           <ul className='navbar-nav ml-auto'>
             <li className='nav-item active'>
-              <Link onClick={handleActiveLogin} className='nav-link' to="/login">
+              <Link
+                onClick={handleActiveLogin}
+                className='nav-link'
+                to='/login'
+              >
                 Login <span className={activeLogin}></span>
               </Link>
             </li>
             <li className='nav-item'>
-              <Link onClick={handleActiveRegister} className='nav-link' to="/register">
+              <Link
+                onClick={handleActiveRegister}
+                className='nav-link'
+                to='/register'
+              >
                 Register <span className={activeRegister}></span>
               </Link>
             </li>
@@ -56,9 +67,19 @@ const Nav = () => {
               placeholder='Search'
               aria-label='Search'
             />
-            <button className='btn btn-outline-success my-2 my-sm-0' type='submit'>
+            <button className='btn btn-outline-success' type='submit'>
               Search
             </button>
+            <li className='nav-item' style={{ listStyle: "none !important" }} onClick={handleLogout}>
+              <Link
+                style={{ marginTop: "-25px", color: "#333", listStyle: "none", textDecoration: 'none' }}
+                onClick={handleActiveRegister}
+                className='nav-link'
+                to='/login'
+              >
+                Logout <span className={activeRegister}></span>
+              </Link>
+            </li>
           </form>
         </div>
       </nav>
@@ -67,12 +88,3 @@ const Nav = () => {
 };
 
 export default Nav;
-
-// <div>
-//   <ul>
-//     {!state.status && <Link to='/register'>Register</Link>}
-//     {!state.status && <Link to='/login'>Login</Link>}
-//     {state.status && <Link to='/contacts'>Contacts</Link>}
-//     {state.status && <Link to='/login' onClick={handleLogout}>Logout</Link>}
-//   </ul>
-// </div>

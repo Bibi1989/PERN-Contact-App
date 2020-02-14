@@ -1,39 +1,55 @@
 import React, { useState, useContext } from "react";
-import { context } from "../../context/ContextProvider";
-import { useHistory } from "react-router-dom";
+import { context } from "../../user-context/UserProvider";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+import auth from "../../privateRoute/auth";
 
-const LoginComponent = () => {
-  const { loginUsers } = useContext(context);
+const RegisterComponent = () => {
+  const { registerUsers } = useContext(context);
   const [press, setPress] = useState(false);
   const [form, setForm] = useState({
+    username: "",
     email: "",
     password: ""
   });
+
   const history = useHistory();
 
   const handleInput = ({ target }) => {
     setForm({ ...form, [target.name]: target.value });
   };
 
-  const handleLogin = e => {
+  const handleRegister = e => {
     e.preventDefault();
-    loginUsers(form);
     setPress(true);
+    registerUsers(form);
     if (sessionStorage.getItem("token")) {
-      history.push("/contacts");
+      auth.login(() => {
+        history.push("/contacts");
+      });
     } else {
-      history.push("/login");
+      auth.logout(() => {
+        history.push("/login");
+      });
     }
   };
 
   return (
-    <Login>
+    <Register>
       <h1>
         <span className='fa fa-user'></span>
-        <span>Login</span>
+        <span>Register</span>
       </h1>
       <form>
+        <div>
+          <input
+            type='text'
+            name='username'
+            value={form.username}
+            placeholder='Username...'
+            onChange={handleInput}
+          />
+        </div>
         <div>
           <input
             type='text'
@@ -53,20 +69,20 @@ const LoginComponent = () => {
           />
         </div>
         <button
-          type='submit'
-          onClick={handleLogin}
           className={press ? "eff" : "no-eff"}
+          type='submit'
+          onClick={handleRegister}
         >
-          Login
+          Register
         </button>
       </form>
-    </Login>
+    </Register>
   );
 };
 
-export default LoginComponent;
+export default RegisterComponent;
 
-const Login = styled.div`
+const Register = styled.div`
   display: block;
   margin: auto;
   width: 60%;
@@ -107,11 +123,12 @@ const Login = styled.div`
       transition: box-shadow 0.4s ease;
     }
     .eff {
+        display: block;
       background: teal;
       color: #eee;
       border: none;
       padding: 5px 25px;
-      margin: 2% 0;
+      margin: 2% auto;
       border-radius: 5px;
       outline: none;
     }

@@ -1,4 +1,5 @@
 import { REGISTER, USER_ERROR, LOGIN } from "./types";
+import auth from '../privateRoute/auth'
 
 export const reducer = (state, action) => {
   switch (action.type) {
@@ -8,6 +9,7 @@ export const reducer = (state, action) => {
         users: action.payload
       };
     case LOGIN:
+      // auth.authenticate
       return {
         ...state,
         status: action.payload

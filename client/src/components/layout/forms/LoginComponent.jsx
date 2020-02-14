@@ -1,42 +1,44 @@
 import React, { useState, useContext } from "react";
-import { context } from "../../context/ContextProvider";
+import { context } from "../../user-context/UserProvider";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import auth from "../../privateRoute/auth";
 
-const RegisterComponent = () => {
-  const { registerUsers } = useContext(context);
+const LoginComponent = () => {
+  const { loginUsers } = useContext(context);
   const [press, setPress] = useState(false);
   const [form, setForm] = useState({
-    username: "",
     email: "",
     password: ""
   });
+  const history = useHistory();
 
   const handleInput = ({ target }) => {
     setForm({ ...form, [target.name]: target.value });
   };
 
-  const handleRegister = e => {
+  const handleLogin = e => {
     e.preventDefault();
+    loginUsers(form);
     setPress(true);
-    registerUsers(form);
+    if (sessionStorage.getItem("token")) {
+      auth.login(() => {
+        history.push("/contacts");
+      });
+    } else {
+      auth.logout(() => {
+        history.push("/login");
+      });
+    }
   };
 
   return (
-    <Register>
+    <Login>
       <h1>
         <span className='fa fa-user'></span>
-        <span>Register</span>
+        <span>Login</span>
       </h1>
       <form>
-        <div>
-          <input
-            type='text'
-            name='username'
-            value={form.username}
-            placeholder='Username...'
-            onChange={handleInput}
-          />
-        </div>
         <div>
           <input
             type='text'
@@ -56,20 +58,20 @@ const RegisterComponent = () => {
           />
         </div>
         <button
-          className={press ? "eff" : "no-eff"}
           type='submit'
-          onClick={handleRegister}
+          onClick={handleLogin}
+          className={press ? "eff" : "no-eff"}
         >
-          Register
+          Login
         </button>
       </form>
-    </Register>
+    </Login>
   );
 };
 
-export default RegisterComponent;
+export default LoginComponent;
 
-const Register = styled.div`
+const Login = styled.div`
   display: block;
   margin: auto;
   width: 60%;
@@ -110,11 +112,12 @@ const Register = styled.div`
       transition: box-shadow 0.4s ease;
     }
     .eff {
+      display: block;
       background: teal;
       color: #eee;
       border: none;
       padding: 5px 25px;
-      margin: 2% 0;
+      margin: 2% auto;
       border-radius: 5px;
       outline: none;
     }

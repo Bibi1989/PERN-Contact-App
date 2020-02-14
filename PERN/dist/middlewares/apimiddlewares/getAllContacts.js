@@ -60,4 +60,16 @@ exports.deleteContact = (req, res) => __awaiter(void 0, void 0, void 0, function
         res.status(404).json({ error: error.message });
     }
 });
+exports.updateContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const { name, phone, email } = req.body;
+        const row = yield pg_connect_1.db.query(pg_connect_1.sql `UPDATE contacts SET name=${name}, phone=${phone}, email=${email} WHERE id = ${id} AND user_id = ${req.user.id} returning *`);
+        res.status(200).json({ data: row });
+    }
+    catch (error) {
+        console.log(error.message);
+        res.status(404).json({ error: error.message });
+    }
+});
 //# sourceMappingURL=getAllContacts.js.map

@@ -4,7 +4,8 @@ import {
   getAllContacts,
   postContacts,
   getAContact,
-  deleteContact
+  deleteContact,
+  updateContact
 } from "../../middlewares/apimiddlewares/getAllContacts";
 import { Auth } from "../../middlewares/auth";
 
@@ -15,5 +16,7 @@ router.get("/:id", Auth, getAContact);
 router.post("/", Auth, postContacts);
 
 router.delete("/:id", Auth, deleteContact)
+
+router.put("/:id", Auth, updateContact)
 
 export default router;

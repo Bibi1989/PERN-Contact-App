@@ -61,3 +61,17 @@ export const deleteContact = async (req: any, res: Response) => {
     res.status(404).json({ error: error.message });
   }
 };
+
+export const updateContact = async (req: any, res: Response) => {
+  const { id } = req.params;
+  try {
+    const { name, phone, email } = req.body;
+    const row = await db.query(
+      sql`UPDATE contacts SET name=${name}, phone=${phone}, email=${email} WHERE id = ${id} AND user_id = ${req.user.id} returning *`
+    );
+    res.status(200).json({ data: row });
+  } catch (error) {
+    console.log(error.message);
+    res.status(404).json({ error: error.message });
+  }
+};

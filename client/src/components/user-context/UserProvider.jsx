@@ -12,15 +12,14 @@ const initialState = {
   errors: ""
 };
 
-export const ContextProvider = props => {
+export const UserProvider = props => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   //   register function
   const registerUsers = async body => {
     try {
       const response = await axios.post("/users/register", body);
-      const decode = jwt(response.headers.auth);
-      sessionStorage.setItem("token", `${decode.iat}`);
+      sessionStorage.setItem("token", response.headers.auth);
       return dispatch({ type: REGISTER, payload: response.data });
     } catch (error) {
       dispatch({ type: USER_ERROR, payload: "Something went wrong" });
@@ -31,13 +30,8 @@ export const ContextProvider = props => {
   const loginUsers = async body => {
     try {
       const response = await axios.post("/users/login", body);
-      if (response.status === 200) {
-        const decode = jwt(response.headers.auth);
-        sessionStorage.setItem("token", `${decode.iat}`);
-        return dispatch({ type: LOGIN, payload: response.status });
-      }else{
-          return
-      }
+      sessionStorage.setItem("token", response.headers.auth);
+      return dispatch({ type: LOGIN, payload: response.data });
     } catch (error) {
       dispatch({ type: USER_ERROR, payload: "Something went wrong" });
     }
