@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 const ContactsComponent = () => {
   const history = useHistory();
-  const { contacts, getContacts, deleteContacts, populateContact, checkUpdate } = useContext(context);
+  const { contacts, getContacts, deleteContacts, populateContact, populate } = useContext(context);
 
   const handleDelete = id => {
     deleteContacts(id);
@@ -17,7 +17,7 @@ const ContactsComponent = () => {
     } else {
       history.push("/login");
     }
-  }, [checkUpdate]);
+  }, [populate]);
 
   const handleEdit = id => {
     populateContact(id)
